@@ -1,0 +1,45 @@
+using UnityEngine;
+
+public class CoinCollector : MonoBehaviour
+{
+    private bool playerInsideTrigger = false;
+    private float timer = 0f;
+    private float collectionTime = 5f;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInsideTrigger = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInsideTrigger = false;
+            timer = 0f; // Reset timer if the player exits the trigger
+        }
+    }
+
+    private void Update()
+    {
+        if (playerInsideTrigger)
+        {
+            timer += Time.deltaTime;
+
+            if (timer >= collectionTime)
+            {
+                CollectCoin();
+                timer = 0f; // Reset timer after collecting the coin
+            }
+        }
+    }
+
+    private void CollectCoin()
+    {
+        // Add your coin collection logic here
+        Debug.Log("Coin Collected!");
+    }
+}
