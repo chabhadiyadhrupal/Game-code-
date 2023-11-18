@@ -1,0 +1,42 @@
+using UnityEngine;
+
+public class Power : MonoBehaviour
+{
+    private bool canCollect = true;
+    private bool enableObstacleTriggers = true;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        PlayerShowObject powerShowObject = other.GetComponent<PlayerShowObject>();
+
+        if (powerShowObject != null && canCollect)
+        {
+            powerShowObject.PowerCollected();
+            gameObject.SetActive(false);
+
+            // Enable obstacle triggers for 5 seconds
+            StartCoroutine(EnableObstacleTriggersForDuration(5f));
+        }
+    }
+
+    private IEnumerator EnableObstacleTriggersForDuration(float duration)
+    {
+        // Disable obstacle triggers
+        enableObstacleTriggers = false;
+
+        yield return new WaitForSeconds(duration);
+
+        // Enable obstacle triggers after the cooldown
+        enableObstacleTriggers = true;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        // Check if obstacle triggers should be active
+        if (enableObstacleTriggers)
+        {
+            // Implement your obstacle behavior here
+            // This will be triggered only when enableObstacleTriggers is true
+        }
+    }
+}
