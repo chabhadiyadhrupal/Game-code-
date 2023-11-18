@@ -1,0 +1,35 @@
+using UnityEngine;
+
+public class Power : MonoBehaviour
+{
+    private bool canCollect = true;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        PlayerShowObject powerShowObject = other.GetComponent<PlayerShowObject>();
+
+        if (powerShowObject != null && canCollect)
+        {
+            powerShowObject.PowerCollected();
+            gameObject.SetActive(false);
+
+            // Disable trigger for obstacles
+            SetTriggerEnabled(false);
+
+            // Start a delayed method to enable the trigger after 5 seconds
+            Invoke("EnableTrigger", 5f);
+        }
+    }
+
+    private void SetTriggerEnabled(bool isEnabled)
+    {
+        // Implement your logic to enable or disable the trigger for obstacles
+        // For example, you can use collider.enabled = isEnabled; for the collider associated with obstacles
+    }
+
+    private void EnableTrigger()
+    {
+        // Enable trigger for obstacles after the cooldown
+        SetTriggerEnabled(true);
+    }
+}
