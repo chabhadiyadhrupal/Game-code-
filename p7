@@ -1,0 +1,34 @@
+using UnityEngine;
+
+public class Obstacle : MonoBehaviour
+{
+    private bool canCollectPower = true;
+    public float powerCollectionCooldown = 5f;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (canCollectPower && other.CompareTag("Player"))
+        {
+            Transform powerObject = transform.Find("PowerObject");
+
+            if (powerObject != null)
+            {
+                // Assuming the power GameObject is a child of the obstacle
+                powerObject.gameObject.SetActive(false);
+                // Alternatively, you might want to implement a method to handle power collection
+                // e.g., player.CollectPower(powerObject);
+
+                // Start the cooldown before the player can collect power again
+                StartCoroutine(PowerCollectionCooldown());
+            }
+        }
+    }
+
+    // Cooldown coroutine
+    private System.Collections.IEnumerator PowerCollectionCooldown()
+    {
+        canCollectPower = false;
+        yield return new WaitForSeconds(powerCollectionCooldown);
+        canCollectPower = true;
+    }
+}
