@@ -1,0 +1,23 @@
+using UnityEngine;
+
+public class PowerObjectController : MonoBehaviour
+{
+    private bool isTriggered = false;
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && !isTriggered)
+        {
+            isTriggered = true;
+            ActivatePower();
+            Destroy(gameObject, 5f); // Destroy the object after 5 seconds (adjust as needed)
+        }
+    }
+
+    void ActivatePower()
+    {
+        // Implement your power functionality here
+        Debug.Log("Power activated!");
+        // Add your custom logic or components to give the object special powers.
+    }
+}
