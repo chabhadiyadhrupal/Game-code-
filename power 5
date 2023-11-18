@@ -1,0 +1,31 @@
+using UnityEngine;
+
+public class PlayerCollision : MonoBehaviour
+{
+    private bool isPowered = false;
+    private float powerDuration = 5f;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (isPowered && other.CompareTag("Obstacle"))
+        {
+            // Your code to handle collision with powered player and obstacle
+            Debug.Log("Player collided with powered state and obstacle");
+
+            // Start a countdown for 5 seconds
+            Invoke("ResetPower", powerDuration);
+        }
+    }
+
+    void ResetPower()
+    {
+        // Reset the powered state after 5 seconds
+        isPowered = false;
+    }
+
+    // Assume there's a mechanism to set the player as powered, you can modify this accordingly
+    public void SetPoweredState(bool powered)
+    {
+        isPowered = powered;
+    }
+}
