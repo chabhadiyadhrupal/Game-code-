@@ -1,0 +1,29 @@
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    private Collider playerCollider;
+
+    private void Start()
+    {
+        playerCollider = GetComponent<Collider>();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Star"))
+        {
+            // Perform star collection logic here
+
+            // Disable player collider for 5 seconds
+            StartCoroutine(DisableColliderForTime(5f));
+        }
+    }
+
+    private System.Collections.IEnumerator DisableColliderForTime(float seconds)
+    {
+        playerCollider.enabled = false;
+        yield return new WaitForSeconds(seconds);
+        playerCollider.enabled = true;
+    }
+}
