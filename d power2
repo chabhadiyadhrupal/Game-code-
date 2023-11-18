@@ -1,0 +1,32 @@
+using UnityEngine;
+
+public class Power : MonoBehaviour
+{
+    private bool canCollect = true;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        PlayerShowObject powerShowObject = other.GetComponent<PlayerShowObject>();
+
+        if (powerShowObject != null && canCollect)
+        {
+            powerShowObject.PowerCollected();
+            gameObject.SetActive(false);
+
+            // Start a coroutine to disable the trigger for 5 seconds
+            StartCoroutine(DisableTriggerForDuration(5f));
+        }
+        else
+        {
+            // Handle behavior for obstacles when the trigger is not active
+            // For example, you might want to ignore or react differently to obstacles
+        }
+    }
+
+    private IEnumerator DisableTriggerForDuration(float duration)
+    {
+        canCollect = false;
+        yield return new WaitForSeconds(duration);
+        canCollect = true;
+    }
+}
