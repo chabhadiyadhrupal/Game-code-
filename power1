@@ -1,0 +1,15 @@
+using UnityEngine;
+
+public class ObjectController : MonoBehaviour
+{
+    private bool isTriggered = false;
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isTriggered = true;
+            Destroy(gameObject, 5f); // Destroy the object after 5 seconds
+        }
+    }
+}
