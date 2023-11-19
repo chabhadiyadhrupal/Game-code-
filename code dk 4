@@ -1,0 +1,29 @@
+public class ObstacleController : MonoBehaviour
+{
+    private Collider obstacleCollider;
+    private bool isColliderDisabled = false;
+
+    private void Start()
+    {
+        obstacleCollider = GetComponent<Collider>();
+    }
+
+    public void DisableColliderForSeconds(float seconds)
+    {
+        if (!isColliderDisabled)
+        {
+            StartCoroutine(DisableColliderCoroutine(seconds));
+        }
+    }
+
+    private IEnumerator DisableColliderCoroutine(float seconds)
+    {
+        obstacleCollider.enabled = false;
+        isColliderDisabled = true;
+
+        yield return new WaitForSeconds(seconds);
+
+        obstacleCollider.enabled = true;
+        isColliderDisabled = false;
+    }
+}
