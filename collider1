@@ -1,0 +1,21 @@
+using UnityEngine;
+
+public class YourScript : MonoBehaviour
+{
+    private Collider yourCollider;
+
+    void Start()
+    {
+        // Assuming the Collider component is attached to the same GameObject as this script
+        yourCollider = GetComponent<Collider>();
+
+        // Invoke the method to turn off the Collider after 5 seconds
+        Invoke("TurnOffCollider", 5f);
+    }
+
+    void TurnOffCollider()
+    {
+        // Turn off the Collider component
+        yourCollider.enabled = false;
+    }
+}
