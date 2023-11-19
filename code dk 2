@@ -1,21 +1,24 @@
-public class ObstacleController : MonoBehaviour
+using UnityEngine;
+
+public class PlayerInteraction : MonoBehaviour
 {
-    private Collider obstacleCollider;
-
-    private void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        obstacleCollider = GetComponent<Collider>();
+        // Check if the collided object has a Rigidbody
+        Rigidbody obstacleRigidbody = other.GetComponent<Rigidbody>();
+
+        // Check if the collided object is an obstacle
+        if (obstacleRigidbody != null && obstacleRigidbody.isKinematic)
+        {
+            // Make the obstacle a child of the player
+            obstacleRigidbody.transform.parent = transform;
+        }
     }
 
-    public void DisableColliderForSeconds(float seconds)
+    private void OnTriggerExit(Collider other)
     {
-        obstacleCollider.enabled = false;
-        StartCoroutine(EnableColliderAfterDelay(seconds));
-    }
+        // Check if the collided object has a Rigidbody
+        Rigidbody obstacleRigidbody = other.GetComponent<Rigidbody>();
 
-    private IEnumerator EnableColliderAfterDelay(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
-        obstacleCollider.enabled = true;
-    }
-}
+        //
+
