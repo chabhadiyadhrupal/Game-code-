@@ -1,0 +1,25 @@
+using UnityEngine;
+
+public class ObstacleController : MonoBehaviour
+{
+    private Collider obstacleCollider;
+
+    private void Start()
+    {
+        // Assuming the Collider component is attached to the same GameObject as this script
+        obstacleCollider = GetComponent<Collider>();
+    }
+
+    public void DisableColliderForSeconds(float seconds)
+    {
+        // Disable the Collider for the specified duration
+        obstacleCollider.enabled = false;
+        Invoke("EnableCollider", seconds);
+    }
+
+    private void EnableCollider()
+    {
+        // Enable the Collider after the delay
+        obstacleCollider.enabled = true;
+    }
+}
