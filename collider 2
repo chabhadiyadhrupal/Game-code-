@@ -1,0 +1,29 @@
+using UnityEngine;
+
+public class CoinCollector : MonoBehaviour
+{
+    private Collider obstacleCollider;
+
+    private void Start()
+    {
+        // Assuming your obstacle has a collider component
+        obstacleCollider = GetComponent<Collider>();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Coin"))
+        {
+            StartCoroutine(DisableColliderForSeconds(5f));
+        }
+    }
+
+    private IEnumerator DisableColliderForSeconds(float seconds)
+    {
+        obstacleCollider.enabled = false;
+
+        yield return new WaitForSeconds(seconds);
+
+        obstacleCollider.enabled = true;
+    }
+}
