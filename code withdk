@@ -1,0 +1,36 @@
+using System.Collections.Generic;
+using TMPro.Examples;
+using UnityEngine; 
+
+
+public class Power : MonoBehaviour {
+	public Collider collide;
+	
+	//public GameObject Obstacle;
+	private void OnTriggerEnter (Collider ColliderInfo) {
+
+		PlayershowObject powershowobject = ColliderInfo.GetComponent<PlayershowObject> ();
+		powershowobject.PowerCollacted ();
+		
+			gameObject.SetActive (false);
+
+
+			//Destroy (gameObject);
+		
+	}
+	private void OnTriggerExit (Collider other) {
+
+
+		ObstacleController Obstacle = collide.GetComponent<ObstacleController> ();
+		
+		Obstacle.EnableCollider ();
+			{
+			collide.enabled = true;
+
+		}
+		Obstacle.DisableColliderForSeconds (5f);
+		collide.enabled = false;
+		Destroy (gameObject);
+	}
+	
+}
