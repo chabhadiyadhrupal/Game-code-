@@ -1,0 +1,58 @@
+using JetBrains.Annotations;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UIElements;
+
+public class KineticPower : MonoBehaviour {
+
+    public GameObject player;
+    public GameObject PowerObject;
+    public GameObject Obstacles;
+    public GameManager gamemanager;
+    public Player movement;
+    public GameObject Retry;
+    bool gameHasEnded=false;
+    bool isPowerActive = true;
+
+
+    void OnTriggerEnter (Collider Player) {
+        if (isPowerActive && Player.gameObject == PowerObject) {
+            DeactivatePowerAndApplyKinetic ();
+
+        }
+
+
+    }
+
+    void DeactivatePowerAndApplyKinetic () {
+        isPowerActive = false; // Power is no longer active
+        PowerObject.SetActive (false); // Deactivate the power GameObject
+        Rigidbody[] obstacleRigidbodies = Obstacles.GetComponentsInChildren<Rigidbody> ();
+        foreach (Rigidbody rb in obstacleRigidbodies) {
+            rb.isKinematic = false;
+        }
+        }
+public void OnCollisionEnter (Collision obj) {
+			if (obj.collider.tag == "Obstacle") {
+				movement.enabled = true;
+				gameHasEnded = true;
+				Retry.SetActive (false);
+			}
+		
+			StartCoroutine (ResetKinematicAndDestroyPower ());
+    }
+
+    IEnumerator ResetKinematicAndDestroyPower () {
+        yield return new WaitForSeconds (5f);
+        Rigidbody[] obstacleRigidbodies = Obstacles.GetComponentsInChildren<Rigidbody> ();
+        foreach (Rigidbody rb in obstacleRigidbodies) {
+            rb.isKinematic = true;
+            FindObjectOfType<GameManager> ().EndGame ();
+        }
+       
+        
+        Destroy (PowerObject);
+    }
+   
+    }
